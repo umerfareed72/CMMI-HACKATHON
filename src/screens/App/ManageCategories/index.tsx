@@ -129,7 +129,7 @@ const ManageCatergories: React.FC<CategoriesProps> = ({navigation}) => {
       itemId: itemIndex,
       value: '',
       input: true,
-      title: value,
+      title: value || '',
     };
 
     const body = {
@@ -150,7 +150,7 @@ const ManageCatergories: React.FC<CategoriesProps> = ({navigation}) => {
       itemId: itemIndex,
       value: '',
       input: false,
-      title: value,
+      title: value || '',
     };
 
     const body = {

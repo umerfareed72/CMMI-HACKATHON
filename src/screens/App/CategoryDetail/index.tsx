@@ -18,15 +18,22 @@ interface CategoriesProps {
   navigation: NavigationProp<any>; // Replace `any` with your specific navigation type
 }
 const CategoryDetail: React.FC<CategoriesProps> = ({navigation}) => {
-  const {category_detail, items} = useSelector(
+  const {category_detail, categories, items, categoryIndex} = useSelector(
     (state: any) => state.categories,
   );
   const dispatch: Dispatch<any> = useDispatch();
 
   // Add Item
   const addNewItem = (): void => {
+    const data = {
+      categoryId: categoryIndex || 0,
+      fields: category_detail?.fields || '',
+      title: category_detail?.title || '',
+      title_value: category_detail?.title_value || '',
+    };
+
     const body = {
-      values: category_detail,
+      values: data,
       onSuccess: () => {},
     };
     dispatch(addNewItemAction(body));
@@ -134,35 +141,37 @@ const CategoryDetail: React.FC<CategoriesProps> = ({navigation}) => {
 
         <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.categoryCon}>
-            {items?.map((item: any, index: number) => {
-              return (
-                <View key={index} style={styles.categoryItem}>
-                  <CategoryItemCard
-                    onChangeCatName={(text: any) => {
-                      updateTitleItem(text, index);
-                    }}
-                    title={item?.title}
-                    value={item?.title_value}
-                    onPressDelCat={() => {
-                      removeNewItem(index);
-                    }}
-                    fields={item?.fields}
-                    onChangeField={(text: any, id: number) => {
-                      updateInputItem(text, id, index);
-                    }}
-                    onChangeNumField={(text: number, id: number) => {
-                      upodateNumberItem(text, id, index);
-                    }}
-                    onDateChange={(text: any, id: number) => {
-                      updateDateItem(text, id, index);
-                    }}
-                    onChangeCheckBox={(text: boolean, id: number) => {
-                      upodateCheckBoxItem(text, id, index);
-                    }}
-                  />
-                </View>
-              );
-            })}
+            {categories[categoryIndex]?.items?.map(
+              (item: any, index: number) => {
+                return (
+                  <View key={index} style={styles.categoryItem}>
+                    <CategoryItemCard
+                      onChangeCatName={(text: any) => {
+                        updateTitleItem(text, index);
+                      }}
+                      title={item?.title}
+                      value={item?.title_value}
+                      onPressDelCat={() => {
+                        removeNewItem(index);
+                      }}
+                      fields={item?.fields}
+                      onChangeField={(text: any, id: number) => {
+                        updateInputItem(text, id, index);
+                      }}
+                      onChangeNumField={(text: number, id: number) => {
+                        upodateNumberItem(text, id, index);
+                      }}
+                      onDateChange={(text: any, id: number) => {
+                        updateDateItem(text, id, index);
+                      }}
+                      onChangeCheckBox={(text: boolean, id: number) => {
+                        upodateCheckBoxItem(text, id, index);
+                      }}
+                    />
+                  </View>
+                );
+              },
+            )}
           </View>
         </KeyboardAwareScrollView>
       </View>

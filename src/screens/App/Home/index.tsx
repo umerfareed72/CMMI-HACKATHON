@@ -12,6 +12,7 @@ interface HomeProps {
 }
 const Home: React.FC<HomeProps> = ({navigation}) => {
   const {categories} = useSelector((state: any) => state.categories);
+
   return (
     <SafeAreaView style={styles.main}>
       <View style={styles.content}>
@@ -38,8 +39,8 @@ const Home: React.FC<HomeProps> = ({navigation}) => {
               return (
                 <View>
                   <HomeCard
-                    title={item?.category_name || ''}
-                    text={item?.fields?.length}
+                    title={`Title: ${item?.category_name || ''}`}
+                    text={`Number of Fields: ${item?.fields?.length}`}
                     onPress={() => {}}
                   />
                 </View>
