@@ -19,6 +19,7 @@ const initialState = {
   categories: [],
   category_detail: null,
   items: [],
+  categoryIndex: 0,
   error: null,
 };
 
@@ -122,7 +123,8 @@ const categoriesSlice = createSlice({
     builder.addCase(
       getCategoryDetailAction.fulfilled,
       (state: any, {payload}) => {
-        state.category_detail = payload;
+        state.categoryIndex = payload?.id;
+        state.category_detail = payload?.data;
       },
     );
     builder.addCase(getCategoryDetailAction.rejected, (state, {payload}) => {});
@@ -134,6 +136,7 @@ const categoriesSlice = createSlice({
       state.error = null;
     });
     builder.addCase(addNewItemAction.fulfilled, (state: any, {payload}) => {
+      console.log(state?.categories[payload]);
       state.items.push(payload);
       state.items = state.items;
     });

@@ -18,7 +18,7 @@ interface CategoriesProps {
   navigation: NavigationProp<any>; // Replace `any` with your specific navigation type
 }
 const CategoryDetail: React.FC<CategoriesProps> = ({navigation}) => {
-  const {category_detail, items} = useSelector(
+  const {category_detail, categories, items, categoryIndex} = useSelector(
     (state: any) => state.categories,
   );
   const dispatch: Dispatch<any> = useDispatch();

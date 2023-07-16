@@ -20,6 +20,7 @@ export const DrawerComponent = ({navigation}: any) => {
   // On Press Category
   const onPressCategory = (item: any, index: number) => {
     const body = {
+      id: index,
       values: item,
       onSuccess: () => {
         navigation?.navigate(`${item?.category_name}+${index}`);

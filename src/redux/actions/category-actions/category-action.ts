@@ -136,10 +136,10 @@ export const updateCatFieldAction = createAsyncThunk(
 // Cetgeory Detail
 export const getCategoryDetailAction = createAsyncThunk(
   Types.GET_CATEGORY_DETAIL,
-  async ({values, onSuccess}: any, {rejectWithValue}) => {
+  async ({id, values, onSuccess}: any, {rejectWithValue}) => {
     try {
       onSuccess(values);
-      return values;
+      return {data: values, id: id};
     } catch (error) {
       // return custom error message from API if any
 
