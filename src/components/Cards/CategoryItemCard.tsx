@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, {useRef} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {
@@ -13,7 +14,8 @@ import {DatePickerModal} from '../Fields/DatePickerModal';
 import {AppInput} from '../Inputs/AppInput';
 
 interface CategoryItemCardProps {
-  category_name: any;
+  title: any;
+  value: any;
   onChangeCatName: any;
   onPressDelCat: any;
   onChangeField: any;
@@ -21,21 +23,24 @@ interface CategoryItemCardProps {
   onChangeNumField: any;
   isDatePickerVisible?: any;
   onDateChange: any;
-  date_value: any;
+  onChangeCheckBox: any;
 }
 export const CategoryItemCard = ({
-  category_name,
+  title,
+  value,
   onPressDelCat,
   onChangeCatName,
   fields,
   onChangeField,
   onChangeNumField,
+  onDateChange,
+  onChangeCheckBox,
 }: CategoryItemCardProps) => {
   const actionSheetRef: any = useRef();
   return (
     <View style={[styles.appButton]}>
       <View style={styles.itemCon}>
-        <Text style={styles.h1}>{category_name}</Text>
+        <Text style={styles.h1}>{value}</Text>
 
         <TouchableOpacity onPress={onPressDelCat} style={styles.smCard}>
           <Image source={appIcons.delete} style={[styles.icon24]} />
@@ -43,10 +48,12 @@ export const CategoryItemCard = ({
       </View>
 
       <AppInput
-        label={category_name}
-        onChangeText={onChangeCatName}
-        value={category_name}
-        placeholder={`Enter ${category_name}`}
+        label={title}
+        onChangeText={(text: any) => {
+          onChangeCatName(text);
+        }}
+        value={value}
+        placeholder={`Enter ${title}`}
       />
       {fields?.map((item: any, index: number) => {
         return (
@@ -55,7 +62,9 @@ export const CategoryItemCard = ({
               <View style={spacing.my4}>
                 <AppInput
                   label={item?.title}
-                  onChangeText={onChangeField}
+                  onChangeText={(text: any) => {
+                    onChangeField(text, index);
+                  }}
                   value={item?.value}
                   placeholder={`Enter ${item?.title}`}
                 />
@@ -65,8 +74,10 @@ export const CategoryItemCard = ({
               <View style={spacing.my4}>
                 <AppCheckBox
                   h1={item?.title}
-                  isEnabled={true}
-                  toggleSwitch={() => {}}
+                  isEnabled={item?.value}
+                  toggleSwitch={(check: boolean) => {
+                    onChangeCheckBox(check, index);
+                  }}
                 />
               </View>
             )}
@@ -74,9 +85,12 @@ export const CategoryItemCard = ({
               <View style={spacing.my4}>
                 <AppInput
                   label={item?.title}
-                  onChangeText={onChangeNumField}
+                  onChangeText={(text: number) => {
+                    onChangeNumField(text, index);
+                  }}
                   value={item?.value}
                   placeholder={`Enter ${item?.title}`}
+                  keyboardType={'decimal-pad'}
                 />
               </View>
             )}
@@ -88,11 +102,16 @@ export const CategoryItemCard = ({
                   onPress={() => {
                     actionSheetRef?.current?.open();
                   }}>
-                  <Text> {`Select ${item?.title}`}</Text>
+                  <Text>
+                    {moment(item?.value)?.format('DD/MM/YYYY') ||
+                      `Select ${item?.title}`}
+                  </Text>
                 </TouchableOpacity>
                 <DatePickerModal
-                  dateValue={new Date()}
-                  onDateChange={() => {}}
+                  dateValue={item?.value || new Date()}
+                  onDateChange={(date: any) => {
+                    onDateChange(date, index);
+                  }}
                   actionSheetRef={actionSheetRef}
                   onPressHide={() => {
                     actionSheetRef?.current?.close();

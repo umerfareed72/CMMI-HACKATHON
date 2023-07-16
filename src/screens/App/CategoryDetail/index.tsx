@@ -5,7 +5,12 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
 import {Dispatch} from 'redux';
 import {AppHeader, CategoryItemCard} from '../../../components';
-import {addNewItemAction, removeItemAction} from '../../../redux/actions';
+import {
+  addNewItemAction,
+  removeItemAction,
+  updateItemAction,
+  updateTitleAction,
+} from '../../../redux/actions';
 import {appIcons} from '../../../utilities';
 import styles from './styles';
 
@@ -36,6 +41,84 @@ const CategoryDetail: React.FC<CategoriesProps> = ({navigation}) => {
     dispatch(removeItemAction(body));
   };
 
+  // update input Item
+  const updateTitleItem = (value: any, index: number): void => {
+    const data = {
+      value: value,
+      index: index,
+    };
+    const body = {
+      values: data,
+      onSuccess: () => {},
+    };
+    dispatch(updateTitleAction(body));
+  };
+
+  // update input Item
+  const updateInputItem = (value: any, id: number, index: number): void => {
+    const data = {
+      value: value,
+      id: id,
+      index: index,
+    };
+    const body = {
+      values: data,
+      onSuccess: () => {},
+    };
+    dispatch(updateItemAction(body));
+  };
+
+  // Update Checkbox Item
+  const upodateCheckBoxItem = (
+    value: boolean,
+    id: number,
+    index: number,
+  ): void => {
+    const data = {
+      value: value,
+      id: id,
+      index: index,
+    };
+    const body = {
+      values: data,
+      onSuccess: () => {},
+    };
+    dispatch(updateItemAction(body));
+  };
+
+  // Update Checkbox Item
+  const updateDateItem = (value: any, id: number, index: number): void => {
+    const data = {
+      value: value,
+      id: id,
+      index: index,
+    };
+
+    const body = {
+      values: data,
+      onSuccess: () => {},
+    };
+    dispatch(updateItemAction(body));
+  };
+
+  // Update Checkbox Item
+  const upodateNumberItem = (
+    value: number,
+    id: number,
+    index: number,
+  ): void => {
+    const data = {
+      value: value,
+      id: id,
+      index: index,
+    };
+    const body = {
+      values: data,
+      onSuccess: () => {},
+    };
+    dispatch(updateItemAction(body));
+  };
+
   return (
     <SafeAreaView style={styles.main}>
       <View style={styles.content}>
@@ -55,16 +138,27 @@ const CategoryDetail: React.FC<CategoriesProps> = ({navigation}) => {
               return (
                 <View key={index} style={styles.categoryItem}>
                   <CategoryItemCard
-                    category_name={category_detail?.title}
-                    onChangeCatName={() => {}}
+                    onChangeCatName={(text: any) => {
+                      updateTitleItem(text, index);
+                    }}
+                    title={item?.title}
+                    value={item?.title_value}
                     onPressDelCat={() => {
                       removeNewItem(index);
                     }}
-                    fields={category_detail?.fields}
-                    onChangeField={() => {}}
-                    onChangeNumField={() => {}}
-                    onDateChange={() => {}}
-                    date_value={new Date()}
+                    fields={item?.fields}
+                    onChangeField={(text: any, id: number) => {
+                      updateInputItem(text, id, index);
+                    }}
+                    onChangeNumField={(text: number, id: number) => {
+                      upodateNumberItem(text, id, index);
+                    }}
+                    onDateChange={(text: any, id: number) => {
+                      updateDateItem(text, id, index);
+                    }}
+                    onChangeCheckBox={(text: boolean, id: number) => {
+                      upodateCheckBoxItem(text, id, index);
+                    }}
                   />
                 </View>
               );

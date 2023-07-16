@@ -190,3 +190,41 @@ export const removeItemAction = createAsyncThunk(
     }
   },
 );
+
+// update input field Categories
+export const updateItemAction = createAsyncThunk(
+  Types.UPDATE_NEW_ITEM,
+  async ({values, onSuccess}: any, {rejectWithValue}) => {
+    try {
+      onSuccess(values);
+      return values;
+    } catch (error) {
+      // return custom error message from API if any
+
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
+// update title Categories
+export const updateTitleAction = createAsyncThunk(
+  Types.UPDATE_TITLE,
+  async ({values, onSuccess}: any, {rejectWithValue}) => {
+    try {
+      onSuccess(values);
+      return values;
+    } catch (error) {
+      // return custom error message from API if any
+
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);

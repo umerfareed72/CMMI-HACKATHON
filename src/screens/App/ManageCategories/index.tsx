@@ -4,7 +4,7 @@ import {SafeAreaView, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
 import {Dispatch} from 'redux';
-import {AppButton, AppHeader} from '../../../components';
+import {AppHeader} from '../../../components';
 import {CategoryCard} from '../../../components/Cards/CategoryCard';
 import {
   addCategoryAction,
@@ -27,14 +27,18 @@ const ManageCatergories: React.FC<CategoriesProps> = ({navigation}) => {
   const addCategory = (): void => {
     const NewItem = {
       category_name: '',
+      category_value: '',
       fields: [
         {
           type: 'Text',
           title: '',
+          value: '',
           id: 'text',
         },
       ],
+      items: [],
       title: '',
+      title_value: '',
     };
     const body = {
       values: NewItem,
@@ -57,6 +61,7 @@ const ManageCatergories: React.FC<CategoriesProps> = ({navigation}) => {
     const obj = {
       type: value?.title,
       title: '',
+      value: '',
       id: value?.id,
     };
     const data = {
@@ -88,8 +93,9 @@ const ManageCatergories: React.FC<CategoriesProps> = ({navigation}) => {
   const updateCategoryValue = (value: string, index: number): void => {
     const data = {
       id: index,
-      value: value,
+      value: '',
       input: true,
+      title: value,
     };
     const body = {
       values: data,
@@ -102,8 +108,9 @@ const ManageCatergories: React.FC<CategoriesProps> = ({navigation}) => {
   const updateCategoryTypeValue = (value: string, index: number): void => {
     const data = {
       id: index,
-      value: value,
+      title: value,
       input: false,
+      value: '',
     };
     const body = {
       values: data,
@@ -121,8 +128,9 @@ const ManageCatergories: React.FC<CategoriesProps> = ({navigation}) => {
     const data = {
       id: index,
       itemId: itemIndex,
-      value: value,
+      value: '',
       input: true,
+      title: value,
     };
 
     const body = {
@@ -141,8 +149,9 @@ const ManageCatergories: React.FC<CategoriesProps> = ({navigation}) => {
     const data = {
       id: index,
       itemId: itemIndex,
-      value: value,
+      value: '',
       input: false,
+      title: value,
     };
 
     const body = {

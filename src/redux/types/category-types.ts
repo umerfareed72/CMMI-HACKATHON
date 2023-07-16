@@ -11,6 +11,9 @@ export const REMOVE_CATEGORY_FIELD = 'categories/remove-category-field';
 
 export const GET_CATEGORY_DETAIL = 'categories/get-category-detail';
 
+export const UPDATE_TITLE = 'categories/update-title';
+
 // Items
 export const ADD_NEW_ITEM = 'categories/add-new-item';
 export const REMOVE_NEW_ITEM = 'categories/remove-new-item';
+export const UPDATE_NEW_ITEM = 'categories/update-new-item';

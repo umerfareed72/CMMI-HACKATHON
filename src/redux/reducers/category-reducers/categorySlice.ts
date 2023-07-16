@@ -9,6 +9,8 @@ import {
   getCategoryDetailAction,
   addNewItemAction,
   removeItemAction,
+  updateItemAction,
+  updateTitleAction,
 } from '../../actions';
 
 // initialize userToken from local storage
@@ -50,11 +52,11 @@ const categoriesSlice = createSlice({
       state.error = null;
     });
     builder.addCase(updateCategoryAction.fulfilled, (state: any, {payload}) => {
-      const {id, value, input} = payload;
+      const {id, title, input} = payload;
       if (input) {
-        state.categories[id].category_name = value;
+        state.categories[id].category_name = title;
       } else {
-        state.categories[id].title = value?.title;
+        state.categories[id].title = title?.title;
       }
       state.categories = [...state.categories];
     });
@@ -84,12 +86,12 @@ const categoriesSlice = createSlice({
       state.error = null;
     });
     builder.addCase(updateCatFieldAction.fulfilled, (state: any, {payload}) => {
-      const {id, itemId, value, input} = payload;
+      const {id, itemId, title, input} = payload;
       if (input) {
-        state.categories[id].fields[itemId].title = value;
+        state.categories[id].fields[itemId].title = title;
       } else {
-        state.categories[id].fields[itemId].id = value?.id;
-        state.categories[id].fields[itemId].type = value?.title;
+        state.categories[id].fields[itemId].id = title?.id;
+        state.categories[id].fields[itemId].type = title?.title;
       }
       state.categories = [...state.categories];
     });
@@ -125,6 +127,8 @@ const categoriesSlice = createSlice({
     );
     builder.addCase(getCategoryDetailAction.rejected, (state, {payload}) => {});
 
+    // *****************Items****************
+
     // Add New Item
     builder.addCase(addNewItemAction.pending, (state, {payload}) => {
       state.error = null;
@@ -143,6 +147,28 @@ const categoriesSlice = createSlice({
       state.items = state.items;
     });
     builder.addCase(removeItemAction.rejected, (state, {payload}) => {});
+
+    // Update Title
+    builder.addCase(updateTitleAction.pending, (state, {payload}) => {
+      state.error = null;
+    });
+    builder.addCase(updateTitleAction.fulfilled, (state: any, {payload}) => {
+      const {index, value} = payload;
+      state.items[index].title_value = value;
+      state.items = [...state.items];
+    });
+    builder.addCase(updateTitleAction.rejected, (state, {payload}) => {});
+
+    // Update New Item
+    builder.addCase(updateItemAction.pending, (state, {payload}) => {
+      state.error = null;
+    });
+    builder.addCase(updateItemAction.fulfilled, (state: any, {payload}) => {
+      const {index, id, value} = payload;
+      state.items[index].fields[id].value = value;
+      state.items = [...state.items];
+    });
+    builder.addCase(updateItemAction.rejected, (state, {payload}) => {});
   },
 });
 export default categoriesSlice.reducer;

@@ -16,9 +16,9 @@ export const AppCheckBox = ({
   return (
     <View style={styles.checkBoxStyle}>
       <Switch
-        trackColor={{false: colors.b1, true: colors.theme_color}}
+        trackColor={{false: colors.white, true: colors.theme_color}}
         thumbColor={isEnabled ? colors.white : colors.white}
-        ios_backgroundColor={colors.theme_color}
+        ios_backgroundColor={colors.white}
         onValueChange={toggleSwitch}
         value={isEnabled}
       />
