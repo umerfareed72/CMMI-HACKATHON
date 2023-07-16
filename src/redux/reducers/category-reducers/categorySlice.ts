@@ -57,6 +57,15 @@ const categoriesSlice = createSlice({
       if (input) {
         state.categories[id].category_name = title;
       } else {
+        state.categories[id].items?.map((item: any, index: number) => {
+          // Update the title of the item with itemId
+          if (item?.categoryId == id) {
+            if (state.categories[id].items[index].title) {
+              state.categories[id].items[index].title = title?.title || '';
+            }
+          }
+        });
+
         state.categories[id].title = title?.title;
       }
       state.categories = [...state.categories];
@@ -76,6 +85,15 @@ const categoriesSlice = createSlice({
         if (!state.categories[id].fields) {
           state.categories[id].fields = [];
         }
+        state.categories[id].items?.map((item: any, index: number) => {
+          // Update the title of the item with itemId
+          if (item?.categoryId == id) {
+            if (state.categories[id].items[index]) {
+              state.categories[id].items[index]?.fields?.push(data);
+            }
+          }
+        });
+
         state.categories[id].fields.push(data);
         state.categories = [...state.categories];
       },
@@ -88,9 +106,28 @@ const categoriesSlice = createSlice({
     });
     builder.addCase(updateCatFieldAction.fulfilled, (state: any, {payload}) => {
       const {id, itemId, title, input} = payload;
+
       if (input) {
-        state.categories[id].fields[itemId].title = title;
+        state.categories[id].fields[itemId].title = title || '';
+        state.categories[id].items?.map((item: any, index: number) => {
+          // Update the title of the item with itemId
+          if (item?.categoryId == id) {
+            if (state.categories[id].items[index].fields[itemId]) {
+              state.categories[id].items[index].fields[itemId].title =
+                title || '';
+            }
+          }
+        });
       } else {
+        state.categories[id].items?.map((item: any, index: number) => {
+          // Update the title of the item with itemId
+          if (item?.categoryId == id) {
+            state.categories[id].items[index].fields[itemId].id = title?.id;
+            state.categories[id].items[index].fields[itemId].type =
+              title?.title;
+          }
+        });
+
         state.categories[id].fields[itemId].id = title?.id;
         state.categories[id].fields[itemId].type = title?.title;
       }
@@ -106,6 +143,14 @@ const categoriesSlice = createSlice({
       removeCategoryFieldAction.fulfilled,
       (state: any, {payload}) => {
         const {index, itemIndex} = payload;
+        state.categories[index].items?.map((item: any, id: number) => {
+          // Update the title of the item with itemId
+          if (item?.categoryId == id) {
+            if (state.categories[index].items[id]) {
+              state.categories[id].items[id]?.fields?.splice(itemIndex, 1);
+            }
+          }
+        });
 
         state.categories[index].fields.splice(itemIndex, 1);
         state.categories = [...state.categories];
@@ -136,7 +181,8 @@ const categoriesSlice = createSlice({
       state.error = null;
     });
     builder.addCase(addNewItemAction.fulfilled, (state: any, {payload}) => {
-      console.log(state?.categories[payload]);
+      state?.categories[state.categoryIndex].items?.push(payload);
+      state.categories = state.categories;
       state.items.push(payload);
       state.items = state.items;
     });
@@ -147,6 +193,8 @@ const categoriesSlice = createSlice({
     });
     builder.addCase(removeItemAction.fulfilled, (state: any, {payload}) => {
       state.items.splice(payload, 1);
+      state?.categories[state.categoryIndex].items?.splice(payload, 1);
+      state.categories = state.categories;
       state.items = state.items;
     });
     builder.addCase(removeItemAction.rejected, (state, {payload}) => {});
@@ -157,6 +205,9 @@ const categoriesSlice = createSlice({
     });
     builder.addCase(updateTitleAction.fulfilled, (state: any, {payload}) => {
       const {index, value} = payload;
+      state.categories[state.categoryIndex].items[index].title_value = value;
+      state.categories = [...state.categories];
+
       state.items[index].title_value = value;
       state.items = [...state.items];
     });
@@ -168,6 +219,9 @@ const categoriesSlice = createSlice({
     });
     builder.addCase(updateItemAction.fulfilled, (state: any, {payload}) => {
       const {index, id, value} = payload;
+      state.categories[state.categoryIndex].items[index].fields[id].value =
+        value;
+      state.categories = [...state.categories];
       state.items[index].fields[id].value = value;
       state.items = [...state.items];
     });

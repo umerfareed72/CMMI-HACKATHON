@@ -62,6 +62,16 @@ export const DrawerComponent = ({navigation}: any) => {
               );
             }
           })}
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                navigation?.navigate('ManageCategories');
+              }}
+              style={[styles.card]}>
+              <Text style={styles.text}>Manage Categories</Text>
+            </TouchableOpacity>
+            <View style={styles.lineStyle} />
+          </View>
         </View>
       </SafeAreaView>
     </>

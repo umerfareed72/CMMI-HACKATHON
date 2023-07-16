@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {DrawerComponent} from '../components';
 import CategoryDetail from '../screens/App/CategoryDetail';
+import ManageCatergories from '../screens/App/ManageCategories';
 import HomeStack from './HomeStack';
 
 const Drawer = createDrawerNavigator();
@@ -27,6 +28,7 @@ const DrawerNav: React.FC = () => {
           );
         }
       })}
+      <Drawer.Screen name="ManageCategories" component={ManageCatergories} />
     </Drawer.Navigator>
   );
 };
