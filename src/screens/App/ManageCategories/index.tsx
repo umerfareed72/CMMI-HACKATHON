@@ -36,7 +36,6 @@ const ManageCatergories: React.FC<CategoriesProps> = ({navigation}) => {
           id: 'text',
         },
       ],
-      items: [],
       title: '',
       title_value: '',
     };
